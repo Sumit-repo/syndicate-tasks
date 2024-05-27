@@ -14,6 +14,7 @@ import java.util.HashMap;
 import java.util.Map;
 
 
+@Path("hello")
 @LambdaUrlConfig(
         authType = AuthType.NONE,
         invokeMode = InvokeMode.BUFFERED
@@ -26,7 +27,6 @@ import java.util.Map;
 public class HelloWorld implements RequestHandler<Object, Map<String, Object>> {
 
     @GET
-    @Path("hello")
     public Map<String, Object> handleRequest(Object request, Context context) {
         Map<String, Object> resultMap = new HashMap<String, Object>();
         resultMap.put("statusCode", 200);
