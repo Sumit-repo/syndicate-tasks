@@ -8,8 +8,11 @@ import com.syndicate.deployment.model.RetentionSetting;
 import com.syndicate.deployment.model.lambda.url.AuthType;
 import com.syndicate.deployment.model.lambda.url.InvokeMode;
 
+import javax.ws.rs.GET;
+import javax.ws.rs.Path;
 import java.util.HashMap;
 import java.util.Map;
+
 
 @LambdaUrlConfig(
         authType = AuthType.NONE,
@@ -22,6 +25,8 @@ import java.util.Map;
 )
 public class HelloWorld implements RequestHandler<Object, Map<String, Object>> {
 
+    @GET
+    @Path("hello")
     public Map<String, Object> handleRequest(Object request, Context context) {
         Map<String, Object> resultMap = new HashMap<String, Object>();
         resultMap.put("statusCode", 200);
