@@ -8,9 +8,8 @@ import com.syndicate.deployment.model.RetentionSetting;
 import com.syndicate.deployment.model.lambda.url.AuthType;
 import com.syndicate.deployment.model.lambda.url.InvokeMode;
 
-import javax.ws.rs.GET;
 import javax.ws.rs.Path;
-import java.util.HashMap;
+import java.util.LinkedHashMap;
 import java.util.Map;
 
 
@@ -24,13 +23,27 @@ import java.util.Map;
         isPublishVersion = true,
         logsExpiration = RetentionSetting.SYNDICATE_ALIASES_SPECIFIED
 )
-public class HelloWorld implements RequestHandler<Object, Map<String, Object>> {
+public class HelloWorld implements RequestHandler<LinkedHashMap<String, Object>, Map<String, Object>> {
 
-    @GET
-    public Map<String, Object> handleRequest(Object request, Context context) {
-        Map<String, Object> resultMap = new HashMap<String, Object>();
-        resultMap.put("statusCode", 200);
-        resultMap.put("message", "Hello from Lambda");
-        return resultMap;
+    @Override
+    public Map<String, Object> handleRequest(LinkedHashMap<String, Object> request, Context context) {
+        String rawPath = (String) request.get("rawPath");
+
+        if ("/hello".equals(rawPath) || "//hello".equals(rawPath)) {
+            return Map.of(
+                    "statusCode", 200,
+                    "body", Map.of(
+                            "statusCode", 200,
+                            "message", "Hello from Lambda"
+                    )
+            );
+        } else {
+            return Map.of(
+                    "statusCode", 404,
+                    "body", Map.of(
+                            "message", "resource not found. Event: " + request
+                    )
+            );
+        }
     }
 }
