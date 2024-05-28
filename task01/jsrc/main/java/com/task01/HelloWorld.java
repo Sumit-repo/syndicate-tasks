@@ -41,7 +41,7 @@ public class HelloWorld implements RequestHandler<LinkedHashMap<String, Object>,
             return Map.of(
                     "statusCode", 404,
                     "body", Map.of(
-                            "message", "resource not found. Event: " + request
+                            "message", "Bad request syntax or unsupported method. Request path: " + request.get(rawPath) + " . HTTP method: GET"
                     )
             );
         }
